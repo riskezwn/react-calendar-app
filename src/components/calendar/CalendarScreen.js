@@ -43,10 +43,7 @@ export const CalendarScreen = () => {
   };
 
   const eventStyleGenerator = (event, start, end, isSelected) => {
-    let color = "#0d6efd";
-    if (isSelected) {
-      color = "#0052c4";
-    }
+    const color = isSelected ? "#0052c4" : "#0d6efd";
     const style = {
       backgroundColor: color,
       borderRadius: "0px",
