@@ -43,8 +43,12 @@ export const CalendarScreen = () => {
   };
 
   const eventStyleGenerator = (event, start, end, isSelected) => {
+    let color = "#0d6efd";
+    if (isSelected) {
+      color = "#0052c4";
+    }
     const style = {
-      backgroundColor: "#367CF7",
+      backgroundColor: color,
       borderRadius: "0px",
       opacity: 0.8,
       display: "block",
@@ -71,6 +75,7 @@ export const CalendarScreen = () => {
         onView={onViewChange}
         onSelectSlot={onSelectedSlot}
         selectable={true}
+        selected={activeEvent}
         view={lastView}
         components={{
           event: CalendarEvent,
