@@ -42,8 +42,20 @@ body {
   border-radius: 5px;
   color: rgb(51, 51, 51);
   display: inline;
-  max-height: 620px;
-  max-width: 500px;
+  height: 620px;
+  width: 500px;
   outline: none;
   padding: 10px;
+}
+.modal-container {
+  padding: .7em;
+}
+
+/* DatePicker */
+
+.react-datetime-picker input:focus {
+  outline: none;
+}
+.react-datetime-picker__wrapper {
+  border: none;
 }
