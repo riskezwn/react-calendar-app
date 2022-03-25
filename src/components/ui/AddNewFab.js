@@ -1,9 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiOpenModal } from "../../actions/ui";
 
 export const AddNewFab = () => {
   const dispatch = useDispatch();
+  const { activeEvent } = useSelector((store) => store.calendar);
 
   const handleAddNew = () => {
     dispatch(uiOpenModal());
@@ -11,7 +12,7 @@ export const AddNewFab = () => {
 
   return (
     <button className="btn btn-primary fab" onClick={handleAddNew}>
-      <i className="fas fa-plus"></i>
+      <i className={`fas ${activeEvent ? "fa-edit" : "fa-plus"}`}></i>
     </button>
   );
 };
