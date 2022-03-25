@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "react-modal";
@@ -7,7 +7,7 @@ import DateTimePicker from "react-datetime-picker";
 
 import Swal from "sweetalert2";
 import { uiCloseModal } from "../../actions/ui";
-import { eventAddNew } from "../../actions/events";
+import { eventAddNew, eventClearActive } from "../../actions/events";
 
 const customStyles = {
   content: {
@@ -24,25 +24,33 @@ Modal.setAppElement("#root");
 const now = moment().minutes(0).seconds(0).add(1, "hour");
 const nowPlus1 = now.clone().add(1, "hour");
 
+const initEvent = {
+  title: "",
+  notes: "",
+  start: now.toDate(),
+  end: nowPlus1.toDate(),
+};
+
 export const CalendarModal = () => {
   const dispatch = useDispatch();
 
-  const store = useSelector((state) => state.ui);
-  const { modalOpen } = store;
+  const { modalOpen } = useSelector((state) => state.ui);
+  const { activeEvent } = useSelector((state) => state.calendar);
 
   const [dateStart, setDateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(nowPlus1.toDate());
 
   const [titleValid, setTitleValid] = useState(true);
 
-  const [formValues, setFormValues] = useState({
-    title: "Evento",
-    notes: "",
-    start: now.toDate(),
-    end: now.add(1, "hour").toDate(),
-  });
+  const [formValues, setFormValues] = useState(initEvent);
 
   const { notes, title, start, end } = formValues;
+
+  useEffect(() => {
+    if (activeEvent) {
+      setFormValues(activeEvent);
+    }
+  }, [activeEvent]);
 
   const handleInputChange = ({ target }) => {
     setFormValues({
@@ -53,6 +61,8 @@ export const CalendarModal = () => {
 
   const closeModal = () => {
     dispatch(uiCloseModal());
+    dispatch(eventClearActive());
+    setFormValues(initEvent);
   };
 
   const handleStartDateChange = (e) => {
@@ -61,7 +71,7 @@ export const CalendarModal = () => {
     setFormValues({
       ...formValues,
       start: e,
-      end: dateEnd,
+      end: moment(e).add(1, "hour").toDate(),
     });
   };
   const handleEndDateChange = (e) => {
