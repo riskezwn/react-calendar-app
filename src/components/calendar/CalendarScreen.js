@@ -11,6 +11,7 @@ import { Navbar } from "../ui/Navbar";
 import { CalendarEvent } from "./CalendarEvent";
 import { CalendarModal } from "./CalendarModal";
 import { uiOpenModal } from "../../actions/ui";
+import { eventSetActive } from "../../actions/events";
 
 moment.locale("es");
 
@@ -35,16 +36,18 @@ export const CalendarScreen = () => {
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "month"
   );
+
   const onDoubleClick = (e) => {
     dispatch(uiOpenModal());
   };
   const onSelect = (e) => {
-    console.log(e);
+    dispatch(eventSetActive(e));
   };
   const onViewChange = (e) => {
     setLastView(e);
     localStorage.setItem("lastView", e);
   };
+
   const eventStyleGenerator = (event, start, end, isSelected) => {
     const style = {
       backgroundColor: "#367CF7",
@@ -57,6 +60,7 @@ export const CalendarScreen = () => {
       style,
     };
   };
+
   return (
     <div className="calendar-screen">
       <Navbar />
