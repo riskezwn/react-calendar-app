@@ -39,7 +39,7 @@ export const LoginScreen = () => {
 
   return (
     <div className="container login-container">
-      <div className="row justify-content-center align-items-center minh-100 ">
+      <div className="row justify-content-center align-items-center minh-100">
         <div className="col-md-12">
           <div className="row container-shadow">
             <div className="col-md-6 login-form-1">

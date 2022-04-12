@@ -77,3 +77,14 @@ body {
   position: fixed;
   left: 25px;
 }
+
+/* LOADING SCREEN */
+
+.loading__screen {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
