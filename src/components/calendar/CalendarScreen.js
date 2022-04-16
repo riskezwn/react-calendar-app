@@ -1,5 +1,5 @@
 import { messages } from "../../helpers/calendar-messages-es";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import moment from "moment";
@@ -11,7 +11,11 @@ import { Navbar } from "../ui/Navbar";
 import { CalendarEvent } from "./CalendarEvent";
 import { CalendarModal } from "./CalendarModal";
 import { uiOpenModal } from "../../actions/ui";
-import { eventClearActive, eventSetActive } from "../../actions/events";
+import {
+  eventClearActive,
+  eventSetActive,
+  eventStartLoading,
+} from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
 import { DeleteFab } from "../ui/DeleteFab";
 
@@ -23,10 +27,15 @@ export const CalendarScreen = () => {
   const dispatch = useDispatch();
 
   const { events, activeEvent } = useSelector((store) => store.calendar);
+  const { uid } = useSelector((store) => store.auth);
 
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "month"
   );
+
+  useEffect(() => {
+    dispatch(eventStartLoading());
+  }, [dispatch]);
 
   const onDoubleClick = (e) => {
     dispatch(uiOpenModal());
@@ -43,7 +52,12 @@ export const CalendarScreen = () => {
   };
 
   const eventStyleGenerator = (event, start, end, isSelected) => {
-    const color = isSelected ? "#0052c4" : "#0d6efd";
+    let color = null;
+    if (uid === event.user._id) {
+      color = isSelected ? "#0052c4" : "#0d6efd";
+    } else {
+      color = isSelected ? "#444444" : "#5d5d5d";
+    }
     const style = {
       backgroundColor: color,
       borderRadius: "0px",
