@@ -15,7 +15,7 @@ import { PublicRoute } from "./PublicRoute";
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
-  const { checking, uid } = useSelector(state => state.auth);
+  const { checking, uid } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(startChecking());
@@ -29,7 +29,6 @@ export const AppRouter = () => {
     );
   }
 
-  console.log(checking);
   return (
     <Router>
       <div>
